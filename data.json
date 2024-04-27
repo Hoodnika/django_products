@@ -1,0 +1,198 @@
+[
+  {
+    "model": "products.category",
+    "pk": 16,
+    "fields": {
+      "name": "Молочные продукты",
+      "description": "Это не у тебя непереносимость лактозы, а лактоза не переносит тебя"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 17,
+    "fields": {
+      "name": "Мясные продукты",
+      "description": "Ели мясо мужики"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 18,
+    "fields": {
+      "name": "Соки",
+      "description": "ну тут и добавить нечего"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 19,
+    "fields": {
+      "name": "Крупы",
+      "description": "И во главе стоит греча"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 20,
+    "fields": {
+      "name": "Сладкое",
+      "description": "Праздник для вкусовых сосочков"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "Сок Добрый яблочный",
+      "description": "",
+      "image": "products/photo/sok_1.jpg",
+      "category": 18,
+      "price": 100,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Сок Моя Семья яблочный",
+      "description": "",
+      "image": "products/photo/sok_2.jpg",
+      "category": 18,
+      "price": 120,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 19,
+    "fields": {
+      "name": "Сок Любимый апельсиновое манго",
+      "description": "",
+      "image": "products/photo/sok_3.jpg",
+      "category": 18,
+      "price": 120,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 20,
+    "fields": {
+      "name": "Fruit-tella",
+      "description": "",
+      "image": "products/photo/fruit-tella.jpg",
+      "category": 20,
+      "price": 75,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 21,
+    "fields": {
+      "name": "Вафли Яшкино",
+      "description": "",
+      "image": "products/photo/wafli.jpg",
+      "category": 20,
+      "price": 70,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 22,
+    "fields": {
+      "name": "Шоколад Фленка пористый",
+      "description": "",
+      "image": "products/photo/alenka.jpg",
+      "category": 20,
+      "price": 90,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 27,
+    "fields": {
+      "name": "Шашлык традиционный",
+      "description": "",
+      "image": "products/photo/chill.jpg",
+      "category": 17,
+      "price": 320,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 28,
+    "fields": {
+      "name": "Колбаса Папа Может",
+      "description": "",
+      "image": "products/photo/dad_can_u.jpg",
+      "category": 17,
+      "price": 120,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 29,
+    "fields": {
+      "name": "Перловка Увелка",
+      "description": "",
+      "image": "products/photo/perlovka.jpg",
+      "category": 19,
+      "price": 70,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 30,
+    "fields": {
+      "name": "Рис Увелка",
+      "description": "",
+      "image": "products/photo/ris.jpg",
+      "category": 19,
+      "price": 80,
+      "created_at": "2024-04-26",
+      "updated_at": "2024-04-26"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 32,
+    "fields": {
+      "name": "Творог Кунгурский клубника",
+      "description": "Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\nNever gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you",
+      "image": "products/photo/tvorog.jpg",
+      "category": 20,
+      "price": 99,
+      "created_at": "2024-04-27",
+      "updated_at": "2024-04-27"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 33,
+    "fields": {
+      "name": "Тут оооооооочень большоеееееееееее название, для того, чтобы проверить, работает ли сплит тег , он как бы должен оставлять всего первые 100 символов",
+      "description": "ааа",
+      "image": "",
+      "category": 16,
+      "price": 1,
+      "created_at": "2024-04-27",
+      "updated_at": "2024-04-27"
+    }
+  }
+]
