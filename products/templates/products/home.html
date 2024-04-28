@@ -1,4 +1,5 @@
 {% extends 'products/base.html'%}
+{% load my_tags %}
 {% block content %}
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
@@ -22,8 +23,8 @@
                 <p class="card-text">{{ category.description }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a type="button" href="{% url 'products:products_to_add' %}"
-                           class="btn btn-sm btn-outline-secondary">Посмотреть продукты</a>
+                        <button  type="button" name="{{ category.name }}" id="{{ category.name }}"
+                           class="btn btn-sm btn-outline-secondary" onclick="location.href={% url 'products:products_to_add' %}" >Посмотреть продукты </button>
                     </div>
                 </div>
             </div>
