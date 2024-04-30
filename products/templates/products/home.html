@@ -23,8 +23,11 @@
                 <p class="card-text">{{ category.description }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <button  type="button" name="{{ category.name }}" id="{{ category.name }}"
-                           class="btn btn-sm btn-outline-secondary" onclick="location.href={% url 'products:products_to_add' %}" >Посмотреть продукты </button>
+                        <link>
+                        <a type="button"
+                           class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'products:products_to_add' category_pk=category.pk %}">Посмотреть продукты
+                        </a>
                     </div>
                 </div>
             </div>

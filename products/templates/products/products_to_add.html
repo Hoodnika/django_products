@@ -13,13 +13,22 @@
     <div class="col">
         <div class="card shadow-sm">
             <img src="{{ product.image | media_filter }}">
-            <div class="card-body">
+            <div class="card-body text-center">
                 <p class="card-text">{{ product.name | split_filter }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a type="button" class="btn btn-sm btn-outline-secondary">Купить за {{ product.price }} рублей</a>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Купить за {{ product.price }}
+                            рублей
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <link>
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'products:product_detail' pk=product.pk %} ">Посмотреть подробней
+                        </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
