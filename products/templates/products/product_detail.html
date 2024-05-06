@@ -8,10 +8,21 @@
             <div class="card-body">
                 <h5 class="card-title">{{ object.name }}</h5>
                 <p class="card-text">{{ object.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a type="button" class="btn btn-sm btn-outline-secondary">Купить за {{ object.price }}
+                <p class="card-text">Товар просмотрен {{ object.view_count }} раз</p>
+                <div class="d-flex align-items-center">
+                    <div class="btn-group col-4">
+                        <a type="button" class="btn btn-sm btn-outline-secondary">*Разработка* Купить за {{ object.price }}
                             рублей</a>
+                    </div>
+                    <div class="btn-group col-4">
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'products:product_update' pk=object.pk %} ">Редактировать
+                        </a>
+                    </div>
+                    <div class="btn-group col-4">
+                        <a type="button"
+                           class="btn btn-sm btn-outline-secondary "
+                           href="{% url 'products:product_delete' pk=object.pk %}">Удалить</a>
                     </div>
                 </div>
             </div>
