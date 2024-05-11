@@ -10,13 +10,13 @@
                 <div class="d-flex align-items-center">
                     <div class="btn-group col-6">
                         <a type="button" class="btn btn-sm btn-outline-secondary"
-                           href="{% url 'products:blog_update' slug=object.slug %} ">Редактировать
+                           href="{% url 'blog:blog_update' slug=object.slug %} ">Редактировать
                         </a>
                     </div>
                     <div class="btn-group col-6">
                         <a type="button"
                            class="btn btn-sm btn-outline-secondary "
-                           href="{% url 'products:blog_delete' slug=object.slug %}">Удалить</a>
+                           href="{% url 'blog:blog_delete' slug=object.slug %}">Удалить</a>
                     </div>
                 </div>
             </div>

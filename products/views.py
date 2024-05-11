@@ -2,11 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from products.models import Product, Category, Blog
+from products.models import Product, Category
+from version_app.models import Version
+from products.forms import ProductForm, VersionForm
 
 
 class CategoryListView(ListView):
     model = Category
+
 
 # def home(request):
 #     context = {
@@ -22,12 +25,25 @@ class ProductListView(ListView):
     def get_queryset(self):
         return Product.objects.all().filter(category=self.kwargs['category_pk'])
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        product_list = self.get_queryset()
+
+        for product in product_list:
+            versions = Version.objects.all().filter(product=product)
+            boolean_version = versions.filter(is_active=True)
+            if boolean_version:
+                product.version_num = boolean_version.last().version_num
+                product.version_name = boolean_version.last().version_name
+        context_data['object_list'] = product_list
+        return context_data
+
 
 # def products_to_add(request, category_pk: int):
 #     context = {
 #         "products_list": Product.objects.all().filter(category=category_pk),
 #     }
-#     return render(request, 'products/blog_list.html', context)
+#     return render(request, 'products/version_list.html', context)
 
 
 class ProductDetailView(DetailView):
@@ -45,19 +61,18 @@ class ProductDetailView(DetailView):
 #         # "object": get_object_or_404(Product, pk=pk),
 #         'object': Product.objects.get(pk=pk),
 #     }
-#     return render(request, 'products/blog_detail.html', context)
+#     return render(request, 'products/version_detail.html', context)
 
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'price', 'category', 'image', )
+    form_class = ProductForm
     success_url = reverse_lazy('products:category_list')
 
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ('name', 'description', 'price', 'category', 'image',)
-    success_url = reverse_lazy('products:category_list')
+    form_class = ProductForm
 
     def get_success_url(self):
         return reverse('products:product_detail', kwargs={'pk': self.object.pk})
@@ -69,40 +84,4 @@ class ProductDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('products:product_list', kwargs={'category_pk': self.object.category.pk})
 
-
-class BlogListView(ListView):
-    model = Blog
-
-    def get_queryset(self):
-        return Blog.objects.all().filter(published=True)
-
-
-class BlogDetailView(DetailView):
-    model = Blog
-
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        self.object.view_count += 1
-        self.object.save()
-        return self.object
-
-
-class BlogCreateView(CreateView):
-    model = Blog
-    fields = ('title', 'slug', 'content', 'image', 'published')
-    success_url = reverse_lazy('products:blog_list')
-
-
-class BlogUpdateView(UpdateView):
-    model = Blog
-    fields = ('title', 'slug', 'content', 'image', 'published', 'published')
-    success_url = reverse_lazy('products:blog_list')
-
-    def get_success_url(self):
-        return reverse('products:blog_detail', kwargs={'slug': self.object.slug})
-
-
-class BlogDeleteView(DeleteView):
-    model = Blog
-    success_url = reverse_lazy('products:blog_list')
 
