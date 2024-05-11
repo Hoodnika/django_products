@@ -1,0 +1,41 @@
+{% extends 'products/base.html'%}
+{% load my_tags %}
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Статьи</h1>
+        </div>
+        <link>
+        <a type="button" class="btn btn-sm btn-secondary"
+               href="{% url 'blog:blog_create' %}">Предложить статью
+        </a>
+    </div>
+</section>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for object in object_list %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <img src="{{ object.image | media_filter }}">
+            <div class="card-body text-center">
+                <h2 class="card-text">{{ object.title | split_filter }}</h2>
+                <p class="card-text">Количество просмотров: {{ object.view_count }} </p>
+                <div class="d-flex justify-content-between align-items-center сol-">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">*Разработка*Опубликовать
+                        </button>
+                    </div>
+                    <div class="btn-group сol-">
+                        <link>
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'blog:blog_detail' slug=object.slug %} ">Посмотреть подробней
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
