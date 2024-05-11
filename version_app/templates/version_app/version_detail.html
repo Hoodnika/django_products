@@ -1,0 +1,26 @@
+{% extends 'products/base.html'%}
+{% load my_tags %}
+{% block content %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 justify-content-center">
+    <div class="col-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="card-text">{{ object.product }}</h3>
+                <h4 class="card-text"> Версия '{{ object.version_num }}'</h4>
+                <div class="d-flex align-items-center">
+                    <div class="btn-group col-6">
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'version:version_update' pk=object.pk %} ">Редактировать
+                        </a>
+                    </div>
+                    <div class="btn-group col-6">
+                        <a type="button"
+                           class="btn btn-sm btn-outline-secondary "
+                           href="{% url 'version:version_delete' pk=object.pk %}">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
