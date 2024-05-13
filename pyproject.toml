@@ -12,6 +12,7 @@ pillow = "^10.2.0"
 ipython = "^8.22.2"
 psycopg2 = "^2.9.9"
 django-stubs = "^4.2.7"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
