@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from products.models import Product, Category
+from users.views import CustomLoginRequiredMixin
 from version_app.models import Version
 from products.forms import ProductForm, VersionForm
 
@@ -64,13 +65,17 @@ class ProductDetailView(DetailView):
 #     return render(request, 'products/version_detail.html', context)
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(CustomLoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('products:category_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(CustomLoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
@@ -78,7 +83,7 @@ class ProductUpdateView(UpdateView):
         return reverse('products:product_detail', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(CustomLoginRequiredMixin, DeleteView):
     model = Product
 
     def get_success_url(self):
