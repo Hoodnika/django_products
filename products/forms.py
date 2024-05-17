@@ -1,7 +1,10 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordResetForm, SetPasswordForm, \
+    AuthenticationForm
 
 from blog.models import Blog, Comment
 from products.models import Product
+from users.models import User
 from version_app.models import Version
 
 
@@ -15,10 +18,10 @@ class StyleFormMixin:
                 field.widget.attrs['class'] = 'form-control'
 
 
-class ProductForm(forms.ModelForm):
+class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['view_count']
+        exclude = ['view_count', 'owner']
 
 
 class BlogForm(StyleFormMixin, forms.ModelForm):
@@ -60,3 +63,34 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
         fields = '__all__'
+
+
+class UserRegisterForm(StyleFormMixin, UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('email', 'password1', 'password2')
+
+
+class UserProfileForm(StyleFormMixin, UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'avatar', 'phone')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].widget = forms.HiddenInput()
+
+
+class UserResetPasswordForm(StyleFormMixin, PasswordResetForm):
+    pass
+
+
+class UserPasswordResetConfirmForm(StyleFormMixin, SetPasswordForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].help_text = forms.HiddenInput()
+
+
+class UserLoginForm(StyleFormMixin, AuthenticationForm):
+    pass
