@@ -1,6 +1,8 @@
 from django.db import models
 
-from products.models import TimeStampMixin, NULLABLE
+from products.models import TimeStampMixin
+from products.special_elements import NULLABLE
+from users.models import User
 
 
 class Blog(TimeStampMixin):
@@ -10,6 +12,8 @@ class Blog(TimeStampMixin):
     image = models.ImageField(**NULLABLE, upload_to='blogs/photo')
     published = models.BooleanField(verbose_name='Опубликовано', default=False)
     view_count = models.PositiveIntegerField(verbose_name='Количество просмотров', default=0)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец статьи', **NULLABLE)
+
 
     def __str__(self):
         return f'{self.title}'
