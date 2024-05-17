@@ -14,7 +14,7 @@
                         <link>
                         <a type="button"
                            class="btn btn-sm btn-outline-secondary"
-                           href="{% url 'products:product_list'  %}">Отменить</a>
+                           href="{% url 'products:product_list' category_pk=object.pk  %}">Отменить</a>
                     </div>
                     <div class="btn-group">
                         <button type="submit"
