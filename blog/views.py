@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from blog.models import Blog, Comment
 from products.forms import BlogForm, CommentForm
+from users.views import CustomLoginRequiredMixin
 
 
 class BlogListView(ListView):
@@ -24,13 +25,13 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(CustomLoginRequiredMixin, CreateView):
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(CustomLoginRequiredMixin, UpdateView):
     model = Blog
     form_class = BlogForm
 
@@ -56,7 +57,7 @@ class BlogUpdateView(UpdateView):
             return super().form_valid(form)
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(CustomLoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
 
