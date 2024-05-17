@@ -1,6 +1,7 @@
 from django.db import models
 
-from products.models import TimeStampMixin, NULLABLE
+from products.models import TimeStampMixin
+from products.special_elements import NULLABLE
 
 
 class Version(TimeStampMixin):
