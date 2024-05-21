@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from products.models import Product, Category
+from products.services import get_category_list_cache
 from users.views import CustomLoginRequiredMixin
 from version_app.models import Version
 from products.forms import ProductForm, ProductModeratorForm
@@ -12,6 +13,8 @@ from products.forms import ProductForm, ProductModeratorForm
 class CategoryListView(ListView):
     model = Category
 
+    def get_queryset(self):
+        return get_category_list_cache()
 
 # def home(request):
 #     context = {
