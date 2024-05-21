@@ -21,6 +21,9 @@ class Blog(TimeStampMixin):
     class Meta:
         verbose_name = 'блог'
         verbose_name_plural = 'блоги'
+        permissions = [
+            ('can_edit_published', 'Может менять опубликованность блога'),
+        ]
 
 
 class Comment(TimeStampMixin):

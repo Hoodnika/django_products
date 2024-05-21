@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordResetForm, SetPasswordForm, \
     AuthenticationForm
+from django.core.exceptions import PermissionDenied
 
 from blog.models import Blog, Comment
 from products.models import Product
@@ -21,13 +22,19 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['view_count', 'owner']
+        exclude = ['view_count', 'owner', 'published']
+
+
+class ProductModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('category', 'description', 'published',)
 
 
 class BlogForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Blog
-        exclude = ['view_count']
+        exclude = ['view_count', 'published', 'owner']
 
     def clean(self):
         """
@@ -51,6 +58,12 @@ class BlogForm(StyleFormMixin, forms.ModelForm):
                     raise forms.ValidationError('Нельзя использовать запрещенные слова')
 
         return cleaned_data
+
+
+class BlogContentMenedgerForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ('published',)
 
 
 class CommentForm(StyleFormMixin, forms.ModelForm):

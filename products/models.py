@@ -32,6 +32,7 @@ class Product(TimeStampMixin):
     price = models.IntegerField()
     view_count = models.PositiveIntegerField(verbose_name='Количество просмотров', default=0)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
+    published = models.BooleanField(verbose_name='Опубликован', default=False)
 
     def __str__(self):
         return f'{self.name} ({self.category})'
@@ -39,3 +40,8 @@ class Product(TimeStampMixin):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        permissions = [
+            ('can_edit_published', 'Может менять опубликованность продукта'),
+            ('can_edit_description', 'Может редактировать описание продукта'),
+            ('can_edit_category', 'Может редактировать категорию продукта')
+        ]
