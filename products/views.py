@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -5,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from products.models import Product, Category
 from users.views import CustomLoginRequiredMixin
 from version_app.models import Version
-from products.forms import ProductForm, VersionForm
+from products.forms import ProductForm, ProductModeratorForm
 
 
 class CategoryListView(ListView):
@@ -81,6 +82,17 @@ class ProductUpdateView(CustomLoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('products:product_detail', kwargs={'pk': self.object.pk})
+
+    def get_form_class(self):
+        if self.request.user == self.object.owner:
+            return ProductForm
+        if self.request.user.has_perms((
+                'products.can_edit_published',
+                'products.can_edit_description',
+                'products.can_edit_category'
+        )):
+            return ProductModeratorForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(CustomLoginRequiredMixin, DeleteView):
