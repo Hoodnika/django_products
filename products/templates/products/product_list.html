@@ -5,24 +5,28 @@
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Собери свою корзину</h1>
+            <a type="button" class="btn btn-sm btn-outline-secondary col-6" href="{% url 'products:category_list' %}">Назад
+            </a>
+
         </div>
     </div>
 </section>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     {% for object in object_list %}
+    {% if object.published == False %}
+    {% if perms.products.can_edit_published or user == object.owner %}
     <div class="col">
         <div class="card shadow-sm">
-            <img src="{{ object.image | media_filter }}">
+            <img height="400" src="{{ object.image | media_filter }}">
             <div class="card-body text-center">
-                <p class="card-text">{{ object.name | split_filter }}</p>
-                <div class="d-flex justify-content-between align-items-center сol-">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">*Разработка* Купить за {{ object.price }}
-                            рублей
-                        </button>
+                <p class="card-text">{{ object.name | split_filter }} *НЕ ОПУБЛИКОВАНО*</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group col-6">
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                        >*Разработка* Купить
+                        </a>
                     </div>
-                    <div class="btn-group сol-">
-                        <link>
+                    <div class="btn-group col-6">
                         <a type="button" class="btn btn-sm btn-outline-secondary"
                            href="{% url 'products:product_detail' pk=object.pk %} ">Посмотреть подробней
                         </a>
@@ -36,6 +40,34 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% elif object.published == True %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <img height="400" src="{{ object.image | media_filter }}">
+            <div class="card-body text-center">
+                <p class="card-text">{{ object.name | split_filter }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group col-6">
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                        >*Разработка* Купить
+                        </a>
+                    </div>
+                    <div class="btn-group col-6">
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'products:product_detail' pk=object.pk %} ">Посмотреть подробней
+                        </a>
+                    </div>
+                </div>
+                {% if object.version_num %}
+                <h6 class="card-subtitle mb-2 text-muted py-3"> Активная версия - "{{ object.version_num }}"</h6>
+                {% else %}
+                <h6 class="card-subtitle mb-2 text-muted py-3"> Активной версии еще нет</h6>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

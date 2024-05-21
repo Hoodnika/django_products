@@ -11,19 +11,23 @@
                 <p class="card-text">Товар просмотрен {{ object.view_count }} раз</p>
                 <div class="d-flex align-items-center">
                     <div class="btn-group col-4">
-                        <a type="button" class="btn btn-sm btn-outline-secondary">*Разработка* Купить за {{ object.price }}
-                            рублей</a>
+                        <a type="button" class="btn btn-sm btn-outline-secondary"
+                           href="{% url 'products:product_list' category_pk=object.category.pk %}">Назад</a>
                     </div>
+                    {% if perms.products.can_edit_published and perms.products.can_edit_description and perms.products.can_edit_category or user == object.owner %}
                     <div class="btn-group col-4">
                         <a type="button" class="btn btn-sm btn-outline-secondary"
                            href="{% url 'products:product_update' pk=object.pk %} ">Редактировать
                         </a>
                     </div>
+                    {% endif %}
+                    {% if user == object.owner %}
                     <div class="btn-group col-4">
                         <a type="button"
                            class="btn btn-sm btn-outline-secondary "
                            href="{% url 'products:product_delete' pk=object.pk %}">Удалить</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
