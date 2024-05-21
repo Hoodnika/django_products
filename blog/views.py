@@ -1,18 +1,16 @@
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Blog, Comment
-from products.forms import BlogForm, CommentForm
+from products.forms import BlogForm, CommentForm, BlogContentMenedgerForm
 from users.views import CustomLoginRequiredMixin
 
 
 class BlogListView(ListView):
     model = Blog
-
-    def get_queryset(self):
-        return Blog.objects.all().filter(published=True)
 
 
 class BlogDetailView(DetailView):
@@ -30,6 +28,10 @@ class BlogCreateView(CustomLoginRequiredMixin, CreateView):
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class BlogUpdateView(CustomLoginRequiredMixin, UpdateView):
     model = Blog
@@ -41,7 +43,6 @@ class BlogUpdateView(CustomLoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         CommentFormset = inlineformset_factory(Blog, Comment, form=CommentForm, extra=1)
-
         if self.request.method == 'POST':
             context_data['formset'] = CommentFormset(self.request.POST, instance=self.object)
         else:
@@ -51,10 +52,20 @@ class BlogUpdateView(CustomLoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         formset = self.get_context_data()['formset']
         self.object = form.save()
-        if formset.is_valid():
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save()
             formset.instance = self.object
             formset.save()
             return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def get_form_class(self):
+        if self.request.user == self.object.owner:
+            return BlogForm
+        if self.request.user.has_perm('blog.can_edit_published',):
+            return BlogContentMenedgerForm
+        raise PermissionDenied
 
 
 class BlogDeleteView(CustomLoginRequiredMixin, DeleteView):
